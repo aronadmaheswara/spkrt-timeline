@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Kalender Pencacahan Lapangan SPKRT 2027</title>
+<title>KALENDER SPKRT 2027</title>
 <script>
 (function(){var t;try{t=localStorage.getItem('spkrt-theme')}catch(e){}
 if(!t)t=matchMedia('(prefers-color-scheme: dark)').matches?'gelap':'terang';
@@ -18,6 +18,7 @@ document.documentElement.setAttribute('data-theme',t)})();
 :root[data-theme="matcha"]{--bg:#EEF3EA;--sf:#FAFCF7;--ink:#1F2D1F;--mut:#5C6F5A;--ln:#D5E0CF;--c-bl:#3B6A8A;--c-hr:#3F7A3A;--c-pd:#9A5F0E;--on:#fff;--ac:#1F2D1F;--q1:#CFE3EC;--q2:#D3E8C4;--q3:#F0E2B6;--q4:#DCD3EA;--qt:#1F2D1F;color-scheme:light}
 :root[data-theme="lavender"]{--bg:#F3F0FA;--sf:#fff;--ink:#2A2340;--mut:#6B6486;--ln:#E1DAF0;--c-bl:#6A4FD0;--c-hr:#1B7F8A;--c-pd:#B03A6B;--on:#fff;--ac:#2A2340;--q1:#D9D0F5;--q2:#C8E6EA;--q3:#F5D9E6;--q4:#F6E6C4;--qt:#2A2340;color-scheme:light}
 :root[data-theme="aurora"]{--bg:#0B1020;--sf:#141B33;--ink:#E8EEFF;--mut:#9AA6CC;--ln:#26305A;--c-bl:#7C9CFF;--c-hr:#3DE0C0;--c-pd:#FF8FB1;--on:#0B1020;--ac:#E8EEFF;--q1:#2E4380;--q2:#1B6A62;--q3:#7C4A6A;--q4:#6B5A2A;--qt:#E8EEFF;color-scheme:dark}
+:root[data-theme="hitam"]{--bg:#000;--sf:#0A0A0A;--ink:#F2F2F2;--mut:#9C9C9C;--ln:#272727;--c-bl:#6FA0FF;--c-hr:#4FD1A5;--c-pd:#F2B84B;--on:#000;--ac:#fff;--q1:#1E3A66;--q2:#1B4D40;--q3:#5E4A1C;--q4:#4C3560;--qt:#EDEDED;color-scheme:dark}
 *{box-sizing:border-box}
 :root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
@@ -31,12 +32,29 @@ button,select{font:inherit;color:inherit}
 .themebtn{width:42px;height:42px;border-radius:50%;border:1.5px solid var(--ln);background:var(--sf);cursor:pointer;display:grid;place-items:center}
 .themebtn svg{width:22px;height:22px}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 1px 1px)}
+.hdr-r{display:flex;align-items:center;gap:14px;margin-left:auto}
+.clk{text-align:right;line-height:1.25}
+.clk b{display:block;font-size:1.2rem;font-weight:700}
+.clk span{font-size:.84rem;color:var(--mut)}
+.tw{position:relative}
+.tm{position:absolute;right:0;top:calc(100% + 8px);min-width:190px;background:var(--sf);border:1px solid var(--ln);border-radius:10px;padding:6px;box-shadow:0 8px 24px rgba(0,0,0,.28);z-index:30;display:flex;flex-direction:column;gap:2px}
+.tm[hidden]{display:none}
+.ti{display:flex;align-items:center;gap:10px;border:0;background:none;padding:7px 10px;border-radius:7px;cursor:pointer;text-align:left;font-weight:500}
+.ti:hover,.ti:focus-visible{background:var(--bg)}
+.ti[aria-checked="true"]{font-weight:700}
+.ti[aria-checked="true"]::after{content:"✓";margin-left:auto}
+.sw{width:22px;height:22px;border-radius:50%;border:1px solid var(--ln);display:grid;grid-template-columns:1fr 1fr;overflow:hidden;flex:none}
+.sw i{display:block}
+.leg i.BL{background:var(--c-bl)}.leg i.HR{background:var(--c-hr)}.leg i.PD{background:var(--c-pd)}
 .bar{display:flex;flex-wrap:wrap;gap:10px 20px;align-items:flex-end;background:var(--sf);border:1px solid var(--ln);border-radius:10px;padding:12px 14px;margin-bottom:14px}
 .grp{display:flex;flex-direction:column;gap:4px}
 .grp>span{font-size:.8rem;color:var(--mut)}
 .chips{display:flex;gap:6px;flex-wrap:wrap}
 .chip{border:1.5px solid var(--ln);background:transparent;border-radius:999px;padding:4px 12px;cursor:pointer;font-weight:600;font-size:.85rem}
-.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.chip[aria-pressed="true"]{color:var(--on);border-color:transparent}
+.chip[data-t="BL"][aria-pressed="true"]{background:var(--c-bl)}
+.chip[data-t="HR"][aria-pressed="true"]{background:var(--c-hr)}
+.chip[data-t="PD"][aria-pressed="true"]{background:var(--c-pd)}
 select{background:var(--sf);border:1.5px solid var(--ln);border-radius:8px;padding:5px 8px;min-width:104px}
 .tabs{display:flex;gap:4px 2px;margin-bottom:10px;align-items:center;flex-wrap:wrap}
 .tab{border:0;background:none;padding:8px 14px;font-weight:600;cursor:pointer;color:var(--mut);border-bottom:2px solid transparent}
@@ -56,11 +74,12 @@ select{background:var(--sf);border:1.5px solid var(--ln);border-radius:8px;paddi
 .day{position:relative;min-height:72px;padding:0;border:1px solid var(--ln);border-radius:6px;background:var(--sf);display:flex;flex-direction:column;cursor:pointer;text-align:left;overflow:hidden;align-items:stretch}
 .day.out{border:0;background:none;cursor:default}
 .n{font-size:.78rem;font-weight:600;color:var(--mut);padding:3px 5px}
-.has .n{position:absolute;top:0;left:0;color:var(--qt);z-index:1}
+.has .n{position:absolute;top:0;left:0;color:var(--on);z-index:1}
 .bk{display:flex;flex-direction:column;flex:1}
-.ev{flex:1;padding:3px 5px;font-size:.66rem;line-height:1.22;font-weight:600;color:var(--qt);overflow-wrap:anywhere}
+.ev{flex:1;padding:3px 5px;font-size:.66rem;line-height:1.22;font-weight:600;color:var(--on);overflow-wrap:anywhere}
+.ev.BL{background:var(--c-bl)}.ev.HR{background:var(--c-hr)}.ev.PD{background:var(--c-pd)}
 .c1{background:var(--q1)}.c2{background:var(--q2)}.c3{background:var(--q3)}.c4{background:var(--q4)}
-.ev+.ev{border-top:1px solid color-mix(in srgb,var(--qt) 28%,transparent)}
+.ev+.ev{border-top:1px solid color-mix(in srgb,var(--on) 45%,transparent)}
 .has .ev:first-child{padding-top:19px}
 .day[aria-pressed="true"]{box-shadow:inset 0 0 0 3px var(--ac)}
 .day[aria-pressed="true"]::after{content:"";position:absolute;inset:0;background:color-mix(in srgb,var(--ac) 16%,transparent);pointer-events:none}
@@ -73,9 +92,10 @@ select{background:var(--sf);border:1.5px solid var(--ln);border-radius:8px;paddi
 .lb{position:sticky;left:0;z-index:3;width:120px;flex:none;background:var(--sf);padding:6px 10px;font-size:.82rem;font-weight:600;border-right:1px solid var(--ln)}
 .trk{position:relative;flex:none}
 .mh{height:30px;border-top:0}
-.ml{position:absolute;top:0;bottom:-1000px;border-left:1px solid var(--ln);padding:5px 6px;font-size:.78rem;color:var(--mut);font-weight:600;pointer-events:none}
-.mk{position:absolute;top:10px;height:14px;min-width:14px;border-radius:7px;border:1.5px solid color-mix(in srgb,var(--qt) 40%,transparent);padding:0;cursor:pointer}
-.mh .ml{color:var(--qt)}.qb{position:absolute;top:0;height:30px}
+.ml{position:absolute;z-index:1;top:0;bottom:-1000px;border-left:1px solid var(--ln);padding:5px 6px;font-size:.78rem;color:var(--mut);font-weight:600;pointer-events:none}
+.mk{position:absolute;z-index:2;top:10px;height:14px;min-width:14px;border-radius:7px;border:1.5px solid color-mix(in srgb,var(--qt) 40%,transparent);padding:0;cursor:pointer}
+.mh .ml{color:var(--qt)}.qb{position:absolute;top:0;bottom:0}
+.mk.BL{background:var(--c-bl)}.mk.HR{background:var(--c-hr)}.mk.PD{background:var(--c-pd)}
 .mk[aria-pressed="true"]{outline:2px solid var(--ac);outline-offset:2px;z-index:2}
 .panel{margin-top:16px;background:var(--sf);border:1px solid var(--ln);border-radius:10px;padding:14px 16px}
 .ph{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;margin-bottom:12px}
@@ -83,7 +103,7 @@ select{background:var(--sf);border:1.5px solid var(--ln);border-radius:8px;paddi
 .btn{border:1.5px solid var(--ln);background:var(--sf);border-radius:8px;padding:5px 12px;cursor:pointer;font-weight:600;font-size:.85rem}
 .dg{margin:0 0 6px;font-size:.95rem;border-bottom:1px solid var(--ln);padding-bottom:4px}
 .card{border-left:6px solid;padding:4px 0 4px 12px;margin:0 0 12px}
-.card.c1{border-color:var(--q1)}.card.c2{border-color:var(--q2)}.card.c3{border-color:var(--q3)}.card.c4{border-color:var(--q4)}
+.card.BL{border-color:var(--c-bl)}.card.HR{border-color:var(--c-hr)}.card.PD{border-color:var(--c-pd)}
 .card h4{margin:0;font-size:.95rem}
 .meta{color:var(--mut);font-size:.84rem;margin:2px 0 6px}
 .card ul{margin:0;padding-left:18px;max-width:80ch}
@@ -98,10 +118,10 @@ select{background:var(--sf);border:1.5px solid var(--ln);border-radius:8px;paddi
 <main>
 <header>
  <div>
-  <h1>Kalender Pencacahan Lapangan Survei Pola Konsumsi Rumah Tangga (SPKRT) 2027</h1>
+  <h1>KALENDER SPKRT 2027</h1>
   <p class="sub">Jadwal kegiatan PPL dan PML dari 1 Januari 2027 sampai 3 Januari 2028.</p>
  </div>
- <button class="themebtn" id="themeBtn" type="button"></button><span class="sr" id="themeSr" aria-live="polite"></span>
+ <div class="hdr-r"><div class="clk"><b id="clkT"></b><span id="clkD"></span></div><div class="tw"><button class="themebtn" id="themeBtn" type="button" aria-haspopup="menu" aria-expanded="false"></button><div class="tm" id="themeMenu" role="menu" aria-label="Pilih tema" hidden></div></div><span class="sr" id="themeSr" aria-live="polite"></span></div>
 </header>
 
 <section class="bar" aria-label="Filter">
@@ -164,7 +184,7 @@ for(const q in HRD)HRD[q].forEach(g=>[1,2,3].forEach(k=>{const[s,e]=P(g[k]);
 E.sort((a,b)=>a.s<b.s?-1:a.s>b.s?1:0);
 
 const $=s=>document.querySelector(s);
-const TH=[['terang','Terang'],['gelap','Gelap'],['mocha','Mocha'],['matcha','Matcha'],['lavender','Lavender'],['aurora','Aurora']];
+const TH=[['terang','Terang','#F3F5F7','#2F5DD0','#147057','#96590A'],['gelap','Gelap','#10161C','#86A6FF','#52C9A6','#E8B04F'],['hitam','Hitam pekat','#000000','#6FA0FF','#4FD1A5','#F2B84B'],['mocha','Mocha','#F4EEE9','#8A5A44','#5F6B3A','#B0472E'],['matcha','Matcha','#EEF3EA','#3B6A8A','#3F7A3A','#9A5F0E'],['lavender','Lavender','#F3F0FA','#6A4FD0','#1B7F8A','#B03A6B'],['aurora','Aurora','#0B1020','#7C9CFF','#3DE0C0','#FF8FB1']];
 const QV={1:[0,1,2],2:[3,4,5],3:[6,7,8],4:[9,10,11,12]};
 const QL={1:'Jan–Mar 2027',2:'Apr–Jun 2027',3:'Jul–Sep 2027',4:'Okt 2027–Jan 2028'};
 const f={t:new Set(['BL','HR','PD']),w:'all',r:'all'};
@@ -177,20 +197,36 @@ const mdim=mi=>({y:2027+Math.floor(mi/12),mo:mi%12});
 
 for(let i=1;i<=10;i++)$('#fR').insertAdjacentHTML('beforeend',`<option value="${i}">RT ${i}</option>`);
 $('#themeBtn').innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18c1.1 0 1.8-.8 1.8-1.7 0-.5-.2-.9-.5-1.3-.3-.4-.5-.8-.5-1.3 0-1 .8-1.7 1.8-1.7H17a4 4 0 0 0 4-4c0-4.4-4-8-9-8z"/><circle cx="7.5" cy="11" r="1" fill="currentColor"/><circle cx="10.5" cy="7" r="1" fill="currentColor"/><circle cx="15" cy="7.5" r="1" fill="currentColor"/></svg>';
+const tm=$('#themeMenu');
+tm.innerHTML=TH.map(t=>`<button class="ti" role="menuitemradio" data-th="${t[0]}" aria-checked="false"><span class="sw" style="background:${t[2]}"><i style="background:${t[3]}"></i><i style="background:${t[4]}"></i><i style="background:${t[5]}"></i></span>${t[1]}</button>`).join('');
+function menu(open){tm.hidden=!open;$('#themeBtn').setAttribute('aria-expanded',open);if(open){const c=tm.querySelector('[aria-checked="true"]')||tm.firstChild;c&&c.focus()}}
 function setTheme(t,save,say){document.documentElement.setAttribute('data-theme',t);if(save)try{localStorage.setItem('spkrt-theme',t)}catch(e){}
- const n=(TH.find(x=>x[0]==t)||TH[0])[1];$('#themeBtn').title='Ganti tema (sekarang: '+n+')';$('#themeBtn').setAttribute('aria-label','Ganti tema warna, sekarang '+n);if(say)$('#themeSr').textContent='Tema '+n}
-$('#themeBtn').onclick=()=>{const cur=document.documentElement.getAttribute('data-theme'),i=TH.findIndex(x=>x[0]==cur);setTheme(TH[(i+1)%TH.length][0],true,true)};
+ const n=(TH.find(x=>x[0]==t)||TH[0])[1];$('#themeBtn').title='Pilih tema (sekarang: '+n+')';$('#themeBtn').setAttribute('aria-label','Pilih tema warna, sekarang '+n);
+ tm.querySelectorAll('.ti').forEach(b=>b.setAttribute('aria-checked',b.dataset.th==t));if(say)$('#themeSr').textContent='Tema '+n}
+$('#themeBtn').onclick=e=>{e.stopPropagation();menu(tm.hidden)};
+tm.querySelectorAll('.ti').forEach(b=>b.onclick=()=>{setTheme(b.dataset.th,true,true);menu(false);$('#themeBtn').focus()});
+document.addEventListener('click',e=>{if(!tm.hidden&&!e.target.closest('.tw'))menu(false)});
+document.addEventListener('keydown',e=>{if(tm.hidden)return;
+ if(e.key=='Escape'){e.preventDefault();menu(false);$('#themeBtn').focus()}
+ else if(e.key=='ArrowDown'||e.key=='ArrowUp'){e.preventDefault();const it=[...tm.querySelectorAll('.ti')],i=it.indexOf(document.activeElement),n=e.key=='ArrowDown'?(i+1)%it.length:(i-1+it.length)%it.length;it[n].focus()}});
 setTheme(document.documentElement.getAttribute('data-theme'),false);
+function tick(){const n=new Date();
+ $('#clkT').textContent=n.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit',second:'2-digit',timeZoneName:'short'}).replace(/(\d)\.(\d)/g,'$1:$2');
+ $('#clkD').textContent=n.toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}
+tick();setInterval(tick,1000);
 $('#qs').innerHTML=[1,2,3,4].map(q=>`<button class="q" data-q="${q}" aria-pressed="false">Triwulan ${RM[q-1]}<small>${QL[q]}</small></button>`).join('');
 
 let dimOn=false,anchorD=null,drag=null,lastPT='mouse';
-$('#leg').innerHTML=['Jan–Mar','Apr–Jun','Jul–Sep','Okt–Des (dan Jan 2028)'].map((t,i)=>`<span><i class="c${i+1}"></i>${t}</span>`).join('');
+function legend(){const T=[['BL','BL dan BLp'],['HR','HR dan HRp'],['PD','Pemutakhiran']];
+ let h=T.map(t=>`<span><i class="${t[0]}"></i>${t[1]}</span>`).join('');
+ if(view=='T')h+=['Jan–Mar','Apr–Jun','Jul–Sep','Okt–Des (dan Jan 2028)'].map((t,i)=>`<span><i class="c${i+1}"></i>Latar ${t}</span>`).join('');
+ $('#leg').innerHTML=h}
 function month(mi){
  const{y,mo}=mdim(mi),off=(new Date(y,mo,1).getDay()+6)%7,dm=new Date(y,mo+1,0).getDate();
  let h=`<div><h2 class="mt">${MO[mo]} ${y}</h2><div class="cal">`+['Sen','Sel','Rab','Kam','Jum','Sab','Min'].map(d=>`<div class="dh">${d}</div>`).join('');
  for(let i=0;i<off;i++)h+='<div class="day out"></div>';
  for(let d=1;d<=dm;d++){const k=ymd(y,mo,d),ev=evOn(k),ix=off+d-1,tt=ev.map(e=>e.title).join('; ');
-  h+=`<button class="day${ev.length?' has':''}" data-d="${k}" data-m="${mi}" data-r="${ix/7|0}" data-c="${ix%7}" aria-pressed="${sel.has(k)}" aria-label="${fmt(k)}${tt?': '+tt:''}"${tt?` title="${tt}"`:''}><span class="n">${d}</span>${ev.length?'<span class="bk">'+ev.map(e=>`<span class="ev c${e.c}">${e.lb}</span>`).join('')+'</span>':''}</button>`}
+  h+=`<button class="day${ev.length?' has':''}" data-d="${k}" data-m="${mi}" data-r="${ix/7|0}" data-c="${ix%7}" aria-pressed="${sel.has(k)}" aria-label="${fmt(k)}${tt?': '+tt:''}"${tt?` title="${tt}"`:''}><span class="n">${d}</span>${ev.length?'<span class="bk">'+ev.map(e=>`<span class="ev ${e.t}">${e.lb}</span>`).join('')+'</span>':''}</button>`}
  return h+'</div></div>'}
 function cal(){$('#vC').innerHTML=`<div class="months${lay=='one'?' one':''}${dimOn&&sel.size?' dim':''}">`+QV[Q].map(month).join('')+'</div>'}
 const cellOf=el=>el&&el.closest?el.closest('#vC .day[data-d]'):null;
@@ -211,19 +247,20 @@ document.addEventListener('pointerup',()=>{if(!drag)return;const d=drag;drag=nul
  if(!d.moved&&(d.sole||d.tog)){d.sole?sel.clear():sel.delete(d.k);paint()}panel()});
 $('#vC').addEventListener('click',e=>{const c=cellOf(e.target);if(!c)return;
  if(e.detail===0||lastPT=='touch'){const k=c.dataset.d;sel.has(k)?sel.delete(k):sel.add(k);anchorD=k;paint();panel()}});
-document.addEventListener('keydown',e=>{if(e.key=='Escape'&&sel.size){sel.clear();render()}});
+document.addEventListener('keydown',e=>{if(e.key=='Escape'&&sel.size&&!e.defaultPrevented){sel.clear();render()}});
 const W=4,T0=new Date(2027,0,1),DAYS=368;
 const di=s=>{const[y,mo,d]=s.split('-');return Math.round((new Date(+y,mo-1,+d)-T0)/864e5)};
 function tl(){
  const rows=[['PD','Pemutakhiran'],['BL','BL dan BLp (semua RT)']];for(let i=1;i<=10;i++)rows.push(['R'+i,'HR dan HRp, RT '+i]);
  const qs=['2027-01-01','2027-04-01','2027-07-01','2027-10-01'];
- let h=`<div class="tli"><div class="tr mh"><div class="lb"></div><div class="trk" style="width:${DAYS*W}px">`+qs.map((q,i)=>`<div class="qb c${i+1}" style="left:${di(q)*W}px;width:${((qs[i+1]?di(qs[i+1]):DAYS)-di(q))*W}px"></div>`).join('');
+ const bands=qs.map((q,i)=>`<div class="qb c${i+1}" style="left:${di(q)*W}px;width:${((qs[i+1]?di(qs[i+1]):DAYS)-di(q))*W}px"></div>`).join('');
+ let h=`<div class="tli"><div class="tr mh"><div class="lb"></div><div class="trk" style="width:${DAYS*W}px">`+bands;
  for(let i=0;i<13;i++){const{y,mo}=mdim(i);h+=`<div class="ml" style="left:${di(ymd(y,mo,1))*W}px">${MO[mo].slice(0,3)} ${y}</div>`}
  h+='</div></div>';
- for(const[key,name]of rows){h+=`<div class="tr"><div class="lb">${name}</div><div class="trk" style="width:${DAYS*W}px">`;
+ for(const[key,name]of rows){h+=`<div class="tr"><div class="lb">${name}</div><div class="trk" style="width:${DAYS*W}px">${bands}`;
   E.filter(e=>vis(e)&&(key=='PD'?e.t=='PD':key=='BL'?e.t=='BL':e.t=='HR'&&e.rt.includes(+key.slice(1)))).forEach(e=>{
    const w=(di(e.e)-di(e.s)+1)*W-2;
-   h+=`<button class="mk c${e.c}" style="left:${di(e.s)*W}px;width:${Math.max(14,w)}px" data-d="${e.s}" aria-pressed="${sel.has(e.s)}" title="${e.title}" aria-label="${e.title}, ${fmt(e.s)}"></button>`});
+   h+=`<button class="mk ${e.t}" style="left:${di(e.s)*W}px;width:${Math.max(14,w)}px" data-d="${e.s}" aria-pressed="${sel.has(e.s)}" title="${e.title}" aria-label="${e.title}, ${fmt(e.s)}"></button>`});
   h+='</div></div>'}
  $('#vT').innerHTML=h+'</div>';
  $('#vT').querySelectorAll('.mk').forEach(b=>b.onclick=()=>{const k=b.dataset.d;sel.has(k)?sel.delete(k):sel.add(k);render()});
@@ -231,7 +268,7 @@ function tl(){
 function panel(){
  const p=$('#panel'),days=[...sel].sort();
  const hd=`<div class="ph"><h2>${days.length?'Tanggal terpilih ('+days.length+')':'Rincian tugas'}</h2><button class="btn" id="bAll">Pilih semua hari berkegiatan di triwulan ini</button>${days.length?`<button class="btn" id="bDim" aria-pressed="${dimOn}">${dimOn?'Tampilkan semua kotak':'Redupkan yang tidak dipilih'}</button><button class="btn" id="bCopy">Salin ringkasan</button><button class="btn" id="bClr">Kosongkan pilihan</button>`:''}</div>`;
- p.innerHTML=hd+(days.length?days.map(k=>{const ev=evOn(k);return `<h3 class="dg">${fmt(k)}</h3>`+(ev.length?ev.map(e=>`<article class="card c${e.c}"><h4>${e.title}</h4><p class="meta">${e.s==e.e?fmt(e.s,{day:'numeric',month:'long'}):fmt(e.s,{day:'numeric',month:'long'})+' sampai '+fmt(e.e,{day:'numeric',month:'long'})}, petugas: ${e.who.join(' dan ')}</p><ul>${e.tasks.map(t=>`<li>${t}</li>`).join('')}</ul>${e.note?`<p class="note">${e.note}</p>`:''}</article>`).join(''):'<p class="empty">Tidak ada kegiatan pada tanggal ini dengan filter yang dipilih.</p>')}).join(''):'<p class="empty">Klik atau seret kotak tanggal untuk memilih, seperti di Excel. Tahan Ctrl (Cmd di Mac) untuk menambah, Shift untuk memperluas. Rincian tugas tanggal terpilih tampil di sini.</p>');
+ p.innerHTML=hd+(days.length?days.map(k=>{const ev=evOn(k);return `<h3 class="dg">${fmt(k)}</h3>`+(ev.length?ev.map(e=>`<article class="card ${e.t}"><h4>${e.title}</h4><p class="meta">${e.s==e.e?fmt(e.s,{day:'numeric',month:'long'}):fmt(e.s,{day:'numeric',month:'long'})+' sampai '+fmt(e.e,{day:'numeric',month:'long'})}, petugas: ${e.who.join(' dan ')}</p><ul>${e.tasks.map(t=>`<li>${t}</li>`).join('')}</ul>${e.note?`<p class="note">${e.note}</p>`:''}</article>`).join(''):'<p class="empty">Tidak ada kegiatan pada tanggal ini dengan filter yang dipilih.</p>')}).join(''):'<p class="empty">Klik atau seret kotak tanggal untuk memilih, seperti di Excel. Tahan Ctrl (Cmd di Mac) untuk menambah, Shift untuk memperluas. Rincian tugas tanggal terpilih tampil di sini.</p>');
  $('#bAll').onclick=()=>{QV[Q].forEach(mi=>{const{y,mo}=mdim(mi);for(let d=1;d<=new Date(y,mo+1,0).getDate();d++){const k=ymd(y,mo,d);if(evOn(k).length)sel.add(k)}});render()};
  const c=$('#bClr');if(c)c.onclick=()=>{sel.clear();render()};
  const dm=$('#bDim');if(dm)dm.onclick=()=>{dimOn=!dimOn;render()};
@@ -244,233 +281,7 @@ function render(){
  $('#qs').hidden=$('#sepQ').hidden=$('#gL').hidden=view!='C';
  $('#tabC').setAttribute('aria-selected',view=='C');$('#tabT').setAttribute('aria-selected',view=='T');
  document.querySelectorAll('.q').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.q==Q));
- view=='C'?cal():tl();panel();
-}
-$('#tabC').onclick=()=>{view='C';render()};$('#tabT').onclick=()=>{view='T';render()};
-document.querySelectorAll('.q').forEach(b=>b.onclick=()=>{Q=+b.dataset.q;render()});
-$('#fT').querySelectorAll('.chip').forEach(b=>b.onclick=()=>{const t=b.dataset.t;f.t.has(t)?f.t.delete(t):f.t.add(t);b.setAttribute('aria-pressed',f.t.has(t));render()});
-$('#fW').onchange=e=>{f.w=e.target.value;render()};$('#fR').onchange=e=>{f.r=e.target.value;render()};$('#fL').onchange=e=>{lay=e.target.value;render()};
-const now=new Date(),nk=ymd(now.getFullYear(),now.getMonth(),now.getDate());
-if(nk>='2027-01-01'){Q=nk<'2027-04-01'?1:nk<'2027-07-01'?2:nk<'2027-10-01'?3:4}
-render();
-</script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-:root,:root[data-theme="terang"]{--bg:#F3F5F7;--sf:#fff;--ink:#16212B;--mut:#56626E;--ln:#DDE3E8;--c-bl:#2F5DD0;--c-hr:#147057;--c-pd:#96590A;--on:#fff;--ac:#16212B;--q1:#CFE0F7;--q2:#CBEBD9;--q3:#F8E2B4;--q4:#EBD3F0;--qt:#1B2733;color-scheme:light}
-:root[data-theme="gelap"]{--bg:#10161C;--sf:#182029;--ink:#E7ECF0;--mut:#9AA6B1;--ln:#2B3640;--c-bl:#86A6FF;--c-hr:#52C9A6;--c-pd:#E8B04F;--on:#0C1116;--ac:#E7ECF0;--q1:#2C4A73;--q2:#2A5C4C;--q3:#6B5524;--q4:#5A3F6B;--qt:#EAF0F5;color-scheme:dark}
-:root[data-theme="mocha"]{--bg:#F4EEE9;--sf:#FFFBF8;--ink:#3B2A24;--mut:#7A675D;--ln:#E3D6CD;--c-bl:#8A5A44;--c-hr:#5F6B3A;--c-pd:#B0472E;--on:#fff;--ac:#3B2A24;--q1:#E8D3C5;--q2:#D9DDBE;--q3:#F2D9A8;--q4:#E6C3BC;--qt:#3B2A24;color-scheme:light}
-:root[data-theme="matcha"]{--bg:#EEF3EA;--sf:#FAFCF7;--ink:#1F2D1F;--mut:#5C6F5A;--ln:#D5E0CF;--c-bl:#3B6A8A;--c-hr:#3F7A3A;--c-pd:#9A5F0E;--on:#fff;--ac:#1F2D1F;--q1:#CFE3EC;--q2:#D3E8C4;--q3:#F0E2B6;--q4:#DCD3EA;--qt:#1F2D1F;color-scheme:light}
-:root[data-theme="lavender"]{--bg:#F3F0FA;--sf:#fff;--ink:#2A2340;--mut:#6B6486;--ln:#E1DAF0;--c-bl:#6A4FD0;--c-hr:#1B7F8A;--c-pd:#B03A6B;--on:#fff;--ac:#2A2340;--q1:#D9D0F5;--q2:#C8E6EA;--q3:#F5D9E6;--q4:#F6E6C4;--qt:#2A2340;color-scheme:light}
-:root[data-theme="aurora"]{--bg:#0B1020;--sf:#141B33;--ink:#E8EEFF;--mut:#9AA6CC;--ln:#26305A;--c-bl:#7C9CFF;--c-hr:#3DE0C0;--c-pd:#FF8FB1;--on:#0B1020;--ac:#E8EEFF;--q1:#2E4380;--q2:#1B6A62;--q3:#7C4A6A;--q4:#6B5A2A;--qt:#E8EEFF;color-scheme:dark}
-*{box-sizing:border-box}
-:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
-body{margin:0;background:var(--bg);color:var(--ink);font:400 15px/1.5 "Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;font-variant-numeric:tabular-nums}
-main{max-width:1600px;margin:0 auto;padding:20px 16px 40px}
-header{display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-between;align-items:flex-start;margin-bottom:16px}
-h1{font-size:1.6rem;line-height:1.2;margin:0 0 4px;font-weight:700;letter-spacing:-.01em}
-.sub{color:var(--mut);margin:0;max-width:62ch}
-button,select{font:inherit;color:inherit}
-:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
-.themebtn{width:42px;height:42px;border-radius:50%;border:1.5px solid var(--ln);background:var(--sf);cursor:pointer;display:grid;place-items:center}
-.themebtn svg{width:22px;height:22px}
-.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 1px 1px)}
-.bar{display:flex;flex-wrap:wrap;gap:10px 20px;align-items:flex-end;background:var(--sf);border:1px solid var(--ln);border-radius:10px;padding:12px 14px;margin-bottom:14px}
-.grp{display:flex;flex-direction:column;gap:4px}
-.grp>span{font-size:.8rem;color:var(--mut)}
-.chips{display:flex;gap:6px;flex-wrap:wrap}
-.chip{border:1.5px solid var(--ln);background:transparent;border-radius:999px;padding:4px 12px;cursor:pointer;font-weight:600;font-size:.85rem}
-.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
-select{background:var(--sf);border:1.5px solid var(--ln);border-radius:8px;padding:5px 8px;min-width:104px}
-.tabs{display:flex;gap:4px 2px;margin-bottom:10px;align-items:center;flex-wrap:wrap}
-.tab{border:0;background:none;padding:8px 14px;font-weight:600;cursor:pointer;color:var(--mut);border-bottom:2px solid transparent}
-.tab[aria-selected="true"]{color:var(--ink);border-color:var(--ink)}
-.sep{width:1px;height:22px;background:var(--ln);margin:0 8px}
-.qs{display:flex;gap:6px;flex-wrap:wrap}
-.q{border:1.5px solid var(--ln);background:var(--sf);border-radius:8px;padding:6px 12px;cursor:pointer;font-weight:600;font-size:.88rem}
-.q small{display:block;font-weight:400;color:var(--mut);font-size:.74rem;line-height:1.2}
-.q[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
-.q[aria-pressed="true"] small{color:inherit;opacity:.8}
-#count{color:var(--mut);font-size:.85rem;margin:0 0 8px}
-.months{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));align-items:start}
-.months.one{grid-template-columns:1fr}
-.mt{font-size:1.05rem;margin:0 0 6px}
-.cal{user-select:none;-webkit-user-select:none;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:2px}
-.dh{padding:4px 0;font-size:.76rem;color:var(--mut);text-align:center;font-weight:600}
-.day{position:relative;min-height:72px;padding:0;border:1px solid var(--ln);border-radius:6px;background:var(--sf);display:flex;flex-direction:column;cursor:pointer;text-align:left;overflow:hidden;align-items:stretch}
-.day.out{border:0;background:none;cursor:default}
-.n{font-size:.78rem;font-weight:600;color:var(--mut);padding:3px 5px}
-.has .n{position:absolute;top:0;left:0;color:var(--qt);z-index:1}
-.bk{display:flex;flex-direction:column;flex:1}
-.ev{flex:1;padding:3px 5px;font-size:.66rem;line-height:1.22;font-weight:600;color:var(--qt);overflow-wrap:anywhere}
-.c1{background:var(--q1)}.c2{background:var(--q2)}.c3{background:var(--q3)}.c4{background:var(--q4)}
-.ev+.ev{border-top:1px solid color-mix(in srgb,var(--qt) 28%,transparent)}
-.has .ev:first-child{padding-top:19px}
-.day[aria-pressed="true"]{box-shadow:inset 0 0 0 3px var(--ac)}
-.day[aria-pressed="true"]::after{content:"";position:absolute;inset:0;background:color-mix(in srgb,var(--ac) 16%,transparent);pointer-events:none}
-.dim .day:not([aria-pressed="true"]){opacity:.28}
-.leg{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.82rem;color:var(--mut);margin:0 0 6px;align-items:center}
-.leg i{display:inline-block;width:16px;height:16px;border-radius:4px;vertical-align:-3px;margin-right:6px;border:1px solid color-mix(in srgb,var(--qt) 30%,transparent)}
-.tl{overflow-x:auto;background:var(--sf);border:1px solid var(--ln);border-radius:10px}
-.tli{position:relative;min-width:max-content}
-.tr{display:flex;height:34px;border-top:1px solid var(--ln);position:relative}
-.lb{position:sticky;left:0;z-index:3;width:120px;flex:none;background:var(--sf);padding:6px 10px;font-size:.82rem;font-weight:600;border-right:1px solid var(--ln)}
-.trk{position:relative;flex:none}
-.mh{height:30px;border-top:0}
-.ml{position:absolute;top:0;bottom:-1000px;border-left:1px solid var(--ln);padding:5px 6px;font-size:.78rem;color:var(--mut);font-weight:600;pointer-events:none}
-.mk{position:absolute;top:10px;height:14px;min-width:14px;border-radius:7px;border:1.5px solid color-mix(in srgb,var(--qt) 40%,transparent);padding:0;cursor:pointer}
-.mh .ml{color:var(--qt)}.qb{position:absolute;top:0;height:30px}
-.mk[aria-pressed="true"]{outline:2px solid var(--ac);outline-offset:2px;z-index:2}
-.panel{margin-top:16px;background:var(--sf);border:1px solid var(--ln);border-radius:10px;padding:14px 16px}
-.ph{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;margin-bottom:12px}
-.ph h2{font-size:1.05rem;margin:0 auto 0 0}
-.btn{border:1.5px solid var(--ln);background:var(--sf);border-radius:8px;padding:5px 12px;cursor:pointer;font-weight:600;font-size:.85rem}
-.dg{margin:0 0 6px;font-size:.95rem;border-bottom:1px solid var(--ln);padding-bottom:4px}
-.card{border-left:6px solid;padding:4px 0 4px 12px;margin:0 0 12px}
-.card.c1{border-color:var(--q1)}.card.c2{border-color:var(--q2)}.card.c3{border-color:var(--q3)}.card.c4{border-color:var(--q4)}
-.card h4{margin:0;font-size:.95rem}
-.meta{color:var(--mut);font-size:.84rem;margin:2px 0 6px}
-.card ul{margin:0;padding-left:18px;max-width:80ch}
-.note{margin:6px 0 0;font-size:.86rem;color:var(--mut);max-width:80ch}
-.empty{color:var(--mut);margin:0}
-.foot{color:var(--mut);font-size:.82rem;margin-top:16px;max-width:84ch}
-@media (max-width:720px){.sep{display:none}.day{min-height:64px}}
-@media (prefers-reduced-motion:no-preference){.day,.q,.th{transition:box-shadow .12s}}
-</style>
-</head>
-<body>
-<main>
-<header>
- <div>
-  <h1>Kalender Pencacahan Lapangan Survei Pola Konsumsi Rumah Tangga (SPKRT) 2027</h1>
-  <p class="sub">Jadwal kegiatan PPL dan PML dari 1 Januari 2027 sampai 3 Januari 2028.</p>
- </div>
- <button class="themebtn" id="themeBtn" type="button"></button><span class="sr" id="themeSr" aria-live="polite"></span>
-</header>
-
-<section class="bar" aria-label="Filter">
- <div class="grp"><span>Jenis kegiatan</span><div class="chips" id="fT">
-  <button class="chip" data-t="BL" aria-pressed="true">BL (bulanan)</button>
-  <button class="chip" data-t="HR" aria-pressed="true">HR (harian)</button>
-  <button class="chip" data-t="PD" aria-pressed="true">Pemutakhiran</button></div></div>
- <label class="grp"><span>Petugas</span><select id="fW"><option value="all">PPL dan PML</option><option value="PPL">PPL</option><option value="PML">PML</option></select></label>
- <label class="grp"><span>Kelompok RT (khusus HR)</span><select id="fR"><option value="all">Semua RT</option></select></label>
- <label class="grp" id="gL"><span>Susunan bulan</span><select id="fL"><option value="side">Berdampingan</option><option value="one">Satu kolom, lebih lebar</option></select></label>
-</section>
-
-<div class="tabs">
- <button class="tab" id="tabC" aria-selected="true">Kalender</button>
- <button class="tab" id="tabT" aria-selected="false">Timeline setahun</button>
- <span class="sep" id="sepQ"></span>
- <div class="qs" id="qs" role="group" aria-label="Pilih triwulan"></div>
-</div>
-<div class="leg" id="leg"></div>
-<p id="count"></p>
-<div id="vC"></div>
-<div id="vT" class="tl" hidden></div>
-<section class="panel" id="panel" aria-live="polite"></section>
-<p class="foot">BL = pencatatan bulanan, HR = pencatatan harian. Pertemuan tim kecil dan tim besar tidak dimasukkan, sesuai keterangan pada dokumen sumber. Filter RT hanya menyaring kegiatan HR; BL dan pemutakhiran berlaku untuk semua RT. Warna kotak menunjukkan triwulan. Pilih tanggal seperti di Excel: klik atau seret kotak, tahan Ctrl (Cmd di Mac) untuk menambah, tahan Shift untuk memperluas, tekan Esc untuk mengosongkan.</p>
-</main>
-<script>
-const MO=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
-const TX={
-BL1:['Jelaskan SPKRT 2027 (tujuan, kewajiban responden) dan beri leaflet','Serahkan kuesioner VPKRT27-BL dan BLp ke rumah tangga terpilih, jelaskan cara pengisiannya'],
-BL2:['Periksa kebenaran dan kelengkapan isian VPKRT27-BL dan BLp','Pastikan tidak ada yang terlewat; jelaskan ulang jika masih ada yang salah','PML mendampingi PPL dan mengawasi pendataan'],
-BL3:['Ambil dan periksa VPKRT27-BL dan BLp yang sudah terisi','Serahkan kuesioner baru untuk bulan berikutnya','Salin isian BLp ke BL','PML memeriksa dokumen dan memberi kode komoditas'],
-BL4:['Periksa kebenaran dan kelengkapan isian VPKRT27-BL dan BLp','Pastikan tidak ada yang terlewat; jelaskan ulang jika masih ada yang salah'],
-BL5:['Ambil dan periksa VPKRT27-BL dan BLp yang sudah terisi','Serahkan kuesioner baru untuk bulan berikutnya'],
-BL6:['Ambil dan periksa VPKRT27-BL dan BLp yang sudah terisi','Wawancara Blok VI VPKRT27-S (pendapatan/penerimaan)','Beri souvenir kepada rumah tangga terpilih'],
-HR1:['PPL mengisi VPKRT27-S Blok I dan III; minta Tabel Rekapitulasi BL1 dan BL2 kepada PML, lalu beri tanda cek (√) pada komoditas yang ada isiannya di Blok VI dan VII','Terangkan dan serahkan VPKRT27-HR dan HRp untuk pengisian hari ke-1 sampai ke-7','Wawancara Blok IV dan V VPKRT27-S, lalu isi Blok II berdasarkan Blok IV'],
-HR2:['Tanyakan konsumsi bukan makanan yang belum dicek (√) pada Blok VI dan VII','Ambil, periksa, dan lengkapi HR dan HRp hari ke-1 sampai ke-3 (Senin–Rabu); jelaskan ulang jika ada kesalahan','Tanyakan hal yang dianggap perlu terkait BL, HR, dan HRp','Pindahkan dan rekap HR dan HRp hari ke-1 sampai ke-3 ke VPKRT27-LK, di luar rumah tangga responden'],
-HR3:['Ambil, periksa, dan lengkapi HR dan HRp hari ke-4 sampai ke-7 (Kamis–Minggu)','Lengkapi informasi lain yang masih perlu ditanyakan, misalnya komoditas yang terlewat','Lanjutkan wawancara VPKRT27-S Blok VI, VII, dan VIII (pendapatan)']};
-const NOTE={BL6:'Pengambilan dokumen boleh fleksibel pada tanggal 1–2, karena tanggal 1 bersamaan dengan kunjungan pertama BL triwulan berikutnya.',
-HR2:'Kunjungan kedua tidak dilakukan pada hari Kamis agar tidak bersamaan dengan kunjungan BL.',
-HR3:'Kunjungan HR boleh fleksibel pada tanggal 1–2 Maret 2027 karena bersamaan dengan kunjungan BL.'};
-const RM=['I','II','III','IV'];
-const qc=s=>s.startsWith('2028')?4:Math.ceil(+s.slice(5,7)/3);
-const P=s=>{const[a,b]=s.split('/');return[a,b?a.slice(0,8)+b:a]};
-const E=[];
-const BLD={1:['2027-01-02','2027-01-15','2027-02-01','2027-02-15','2027-03-01','2027-04-01/02'],
-2:['2027-04-01','2027-04-15','2027-05-01','2027-05-15','2027-06-01','2027-07-01/02'],
-3:['2027-07-01','2027-07-15','2027-08-01','2027-08-15','2027-09-01','2027-10-01/02'],
-4:['2027-10-01','2027-10-15','2027-11-01','2027-11-15','2027-12-01','2028-01-01']};
-for(const q in BLD)BLD[q].forEach((d,i)=>{const[s,e]=P(d),k=i+1;
- E.push({t:'BL',q:+q,k,rt:[],s,e,who:k==2||k==3?['PPL','PML']:['PPL'],title:'Kunjungan ke-'+k+' BL (Triwulan '+RM[q-1]+')',lb:'BL dan BLp ke-'+k,c:qc(s),tasks:TX['BL'+k],note:NOTE['BL'+k]||(q==4&&k==1?'Dokumen sumber menulis tanggal 30 Oktober; di sini diasumsikan 1 Oktober mengikuti pola triwulan lain.':'')})});
-const HRD={1:[[[1,2],'2027-02-21','2027-02-25','2027-03-01/02'],[[3,4],'2027-03-14','2027-03-18','2027-03-22'],[[5,6,7],'2027-03-21','2027-03-25','2027-03-29'],[[8,9,10],'2027-03-28','2027-03-31','2027-04-05']],
-2:[[[1,2],'2027-06-06','2027-06-10','2027-06-14'],[[3,4,5],'2027-06-13','2027-06-17','2027-06-21'],[[6,7,8],'2027-06-20','2027-06-24','2027-06-28'],[[9,10],'2027-06-27','2027-06-30','2027-07-05']],
-3:[[[1,2],'2027-09-05','2027-09-09','2027-09-13'],[[3,4,5],'2027-09-12','2027-09-16','2027-09-20'],[[6,7,8],'2027-09-19','2027-09-23','2027-09-27'],[[9,10],'2027-09-26','2027-09-30','2027-10-04']],
-4:[[[1,2],'2027-12-05','2027-12-09','2027-12-13'],[[3,4,5],'2027-12-12','2027-12-16','2027-12-20'],[[6,7,8],'2027-12-19','2027-12-23','2027-12-27'],[[9,10],'2027-12-26','2027-12-30','2028-01-03']]};
-const rl=r=>r.length==2?'RT '+r.join(' & '):'RT '+r[0]+'–'+r[r.length-1];
-for(const q in HRD)HRD[q].forEach(g=>[1,2,3].forEach(k=>{const[s,e]=P(g[k]);
- E.push({t:'HR',q:+q,k,rt:g[0],s,e,who:k==1?['PPL','PML']:['PPL'],title:'Kunjungan ke-'+k+' HR, '+rl(g[0]),lb:'HR dan HRp ke-'+k+', '+rl(g[0]),c:qc(s),tasks:TX['HR'+k],note:(k==3&&g[k]=='2028-01-03'?'Pada kunjungan ini PPL juga memberi souvenir kepada rumah tangga terpilih. ':'')+(NOTE['HR'+k]&&(k==2||g[k].startsWith('2027-03-01'))?NOTE['HR'+k]:'')})}));
-[['2027-02-08/21',2],['2027-05-17/30',3],['2027-08-16/29',4]].forEach(([d,q])=>{const[s,e]=P(d);
- E.push({t:'PD',q,k:0,rt:[],s,e,who:['PPL','PML'],title:'Pemutakhiran Daftar Sampel Rumah Tangga Triwulan '+RM[q-1],lb:'Pemutakhiran',c:qc(s),tasks:['Pemutakhiran daftar sampel rumah tangga untuk triwulan '+RM[q-1]],note:'Dijadwalkan pada minggu ke-'+(q==2?'II–III':'III–IV')+' bulan tersebut.'})});
-E.sort((a,b)=>a.s<b.s?-1:a.s>b.s?1:0);
-
-const $=s=>document.querySelector(s);
-const TH=[['terang','Terang'],['gelap','Gelap'],['mocha','Mocha'],['matcha','Matcha'],['lavender','Lavender'],['aurora','Aurora']];
-const QV={1:[0,1,2],2:[3,4,5],3:[6,7,8],4:[9,10,11,12]};
-const QL={1:'Jan–Mar 2027',2:'Apr–Jun 2027',3:'Jul–Sep 2027',4:'Okt 2027–Jan 2028'};
-const f={t:new Set(['BL','HR','PD']),w:'all',r:'all'};
-let view='C',Q=1,lay='side';const sel=new Set();
-const vis=e=>f.t.has(e.t)&&(f.w=='all'||e.who.includes(f.w))&&(f.r=='all'||e.t!='HR'||e.rt.includes(+f.r));
-const ymd=(y,mo,d)=>y+'-'+String(mo+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
-const evOn=k=>E.filter(e=>vis(e)&&e.s<=k&&k<=e.e);
-const fmt=(s,o)=>{const[y,mo,d]=s.split('-');return new Date(+y,mo-1,+d).toLocaleDateString('id-ID',o||{weekday:'long',day:'numeric',month:'long',year:'numeric'})};
-const mdim=mi=>({y:2027+Math.floor(mi/12),mo:mi%12});
-
-for(let i=1;i<=10;i++)$('#fR').insertAdjacentHTML('beforeend',`<option value="${i}">RT ${i}</option>`);
-$('#themeBtn').innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18c1.1 0 1.8-.8 1.8-1.7 0-.5-.2-.9-.5-1.3-.3-.4-.5-.8-.5-1.3 0-1 .8-1.7 1.8-1.7H17a4 4 0 0 0 4-4c0-4.4-4-8-9-8z"/><circle cx="7.5" cy="11" r="1" fill="currentColor"/><circle cx="10.5" cy="7" r="1" fill="currentColor"/><circle cx="15" cy="7.5" r="1" fill="currentColor"/></svg>';
-function setTheme(t,save,say){document.documentElement.setAttribute('data-theme',t);if(save)try{localStorage.setItem('spkrt-theme',t)}catch(e){}
- const n=(TH.find(x=>x[0]==t)||TH[0])[1];$('#themeBtn').title='Ganti tema (sekarang: '+n+')';$('#themeBtn').setAttribute('aria-label','Ganti tema warna, sekarang '+n);if(say)$('#themeSr').textContent='Tema '+n}
-$('#themeBtn').onclick=()=>{const cur=document.documentElement.getAttribute('data-theme'),i=TH.findIndex(x=>x[0]==cur);setTheme(TH[(i+1)%TH.length][0],true,true)};
-setTheme(document.documentElement.getAttribute('data-theme'),false);
-$('#qs').innerHTML=[1,2,3,4].map(q=>`<button class="q" data-q="${q}" aria-pressed="false">Triwulan ${RM[q-1]}<small>${QL[q]}</small></button>`).join('');
-
-function month(mi){
- const{y,mo}=mdim(mi),off=(new Date(y,mo,1).getDay()+6)%7,dim=new Date(y,mo+1,0).getDate();
- let h=`<div><h2 class="mt">${MO[mo]} ${y}</h2><div class="cal">`+['Sen','Sel','Rab','Kam','Jum','Sab','Min'].map(d=>`<div class="dh">${d}</div>`).join('');
- for(let i=0;i<off;i++)h+='<div class="day out"></div>';
- for(let d=1;d<=dim;d++){const k=ymd(y,mo,d),ev=evOn(k);
-  h+=`<button class="day${ev.length?' has':''}" data-d="${k}" aria-pressed="${sel.has(k)}" aria-label="${fmt(k)}${ev.length?': '+ev.map(e=>e.title).join('; '):''}"><span class="n">${d}</span>${ev.length?'<span class="bk">'+ev.map(e=>`<span class="ev ${e.t}">${e.title}</span>`).join('')+'</span>':''}</button>`}
- return h+'</div></div>'}
-function cal(){
- $('#vC').innerHTML=`<div class="months${lay=='one'?' one':''}">`+QV[Q].map(month).join('')+'</div>';
- $('#vC').querySelectorAll('.day[data-d]').forEach(b=>b.onclick=()=>toggle(b.dataset.d));
-}
-const W=4,T0=new Date(2027,0,1),DAYS=368;
-const di=s=>{const[y,mo,d]=s.split('-');return Math.round((new Date(+y,mo-1,+d)-T0)/864e5)};
-function tl(){
- const rows=[['PD','Pemutakhiran'],['BL','BL (semua RT)']];for(let i=1;i<=10;i++)rows.push(['R'+i,'RT '+i]);
- let h=`<div class="tli"><div class="tr mh"><div class="lb"></div><div class="trk" style="width:${DAYS*W}px">`;
- for(let i=0;i<13;i++){const{y,mo}=mdim(i);h+=`<div class="ml" style="left:${di(ymd(y,mo,1))*W}px">${MO[mo].slice(0,3)} ${y}</div>`}
- h+='</div></div>';
- for(const[key,name]of rows){h+=`<div class="tr"><div class="lb">${name}</div><div class="trk" style="width:${DAYS*W}px">`;
-  E.filter(e=>vis(e)&&(key=='PD'?e.t=='PD':key=='BL'?e.t=='BL':e.t=='HR'&&e.rt.includes(+key.slice(1)))).forEach(e=>{
-   const w=(di(e.e)-di(e.s)+1)*W-2;
-   h+=`<button class="mk ${e.t}" style="left:${di(e.s)*W}px;width:${Math.max(14,w)}px" data-d="${e.s}" aria-pressed="${sel.has(e.s)}" title="${e.title}" aria-label="${e.title}, ${fmt(e.s)}"></button>`});
-  h+='</div></div>'}
- $('#vT').innerHTML=h+'</div>';
- $('#vT').querySelectorAll('.mk').forEach(b=>b.onclick=()=>toggle(b.dataset.d));
-}
-function toggle(k){sel.has(k)?sel.delete(k):sel.add(k);render()}
-function panel(){
- const p=$('#panel'),days=[...sel].sort();
- const hd=`<div class="ph"><h2>${days.length?'Tanggal terpilih ('+days.length+')':'Rincian tugas'}</h2><button class="btn" id="bAll">Pilih semua hari berkegiatan di triwulan ini</button>${days.length?'<button class="btn" id="bCopy">Salin ringkasan</button><button class="btn" id="bClr">Kosongkan pilihan</button>':''}</div>`;
- p.innerHTML=hd+(days.length?days.map(k=>{const ev=evOn(k);return `<h3 class="dg">${fmt(k)}</h3>`+(ev.length?ev.map(e=>`<article class="card ${e.t}"><h4>${e.title}</h4><p class="meta">${e.s==e.e?fmt(e.s,{day:'numeric',month:'long'}):fmt(e.s,{day:'numeric',month:'long'})+' sampai '+fmt(e.e,{day:'numeric',month:'long'})}, petugas: ${e.who.join(' dan ')}</p><ul>${e.tasks.map(t=>`<li>${t}</li>`).join('')}</ul>${e.note?`<p class="note">${e.note}</p>`:''}</article>`).join(''):'<p class="empty">Tidak ada kegiatan pada tanggal ini dengan filter yang dipilih.</p>')}).join(''):'<p class="empty">Klik kotak tanggal untuk memilih. Anda bisa memilih banyak tanggal sekaligus, dan rincian tugasnya tampil di sini.</p>');
- $('#bAll').onclick=()=>{QV[Q].forEach(mi=>{const{y,mo}=mdim(mi);for(let d=1;d<=new Date(y,mo+1,0).getDate();d++){const k=ymd(y,mo,d);if(evOn(k).length)sel.add(k)}});render()};
- const c=$('#bClr');if(c)c.onclick=()=>{sel.clear();render()};
- const cp=$('#bCopy');if(cp)cp.onclick=()=>{const t=days.map(k=>fmt(k,{weekday:'short',day:'numeric',month:'short',year:'numeric'})+': '+(evOn(k).map(e=>e.title).join('; ')||'tidak ada kegiatan')).join('\n');
-  (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>{cp.textContent='Tersalin'},()=>{cp.textContent='Gagal menyalin'});setTimeout(()=>{cp.textContent='Salin ringkasan'},1800)};
-}
-function render(){
- $('#count').textContent=E.filter(vis).length+' dari '+E.length+' kegiatan tampil dengan filter saat ini';
- $('#vC').hidden=view!='C';$('#vT').hidden=view!='T';
- $('#qs').hidden=$('#sepQ').hidden=$('#gL').hidden=view!='C';
- $('#tabC').setAttribute('aria-selected',view=='C');$('#tabT').setAttribute('aria-selected',view=='T');
- document.querySelectorAll('.q').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.q==Q));
- view=='C'?cal():tl();panel();
+ legend();view=='C'?cal():tl();panel();
 }
 $('#tabC').onclick=()=>{view='C';render()};$('#tabT').onclick=()=>{view='T';render()};
 document.querySelectorAll('.q').forEach(b=>b.onclick=()=>{Q=+b.dataset.q;render()});
